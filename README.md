@@ -1,5 +1,5 @@
 # Advent-of-Code
-My Advent of Code shenanigans.
+Advent of Code shenanigans.
 
 ## 2023
 My plan for this year is to get some more experience with Rust, especially with iterators and tests. I also want to to get used to publishing things online without overthinking...
