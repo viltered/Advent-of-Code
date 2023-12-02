@@ -9,16 +9,15 @@ fn main() {
 fn day_1_part_1(input: &str) -> u32 {
     let mut sum: u32 = 0;
     for line in input.lines() {
-        let first = line.chars().filter_map(|c| c.to_digit(10)).nth(0).unwrap();
-        let last = line
-            .chars()
-            .rev()
-            .filter_map(|c| c.to_digit(10))
-            .nth(0)
-            .unwrap();
-        sum += first * 10 + last;
+        let mut it = line.chars().filter_map(|c| c.to_digit(10));
+        let first = it.next().expect("Line doesn't contain any digits.");
+        sum += first * 10
+            + match it.next_back() {
+                Some(last) => last,
+                None => first,
+            };
     }
-    return sum;
+    sum
 }
 
 const DIGIT_WORDS: [&str; 10] = [
@@ -80,26 +79,33 @@ fn day_1_part_2(input: &str) -> u32 {
         //     println!("{}^", " ".repeat(first.0));
         // }
     }
-    return sum as u32;
+
+    sum as u32
 }
 
-#[test]
-fn day_1_1() {
-    let input = "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet";
-    let answer = day_1_part_1(input);
-    assert_eq!(answer, 142);
+#[cfg(test)]
+mod tests {
+    use crate::{day_1_part_1, day_1_part_2};
+
+    #[test]
+    fn day_1_1() {
+        let input = "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet";
+        let answer = day_1_part_1(input);
+        assert_eq!(answer, 142);
+    }
+    
+    #[test]
+    fn day_1_2() {
+        let input = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen";
+        let answer = day_1_part_2(input);
+        assert_eq!(answer, 281);
+    }
+    
+    #[test]
+    fn day_1_2_failed() {
+        // test case from regular input which failed before
+        let answer = day_1_part_2("kpzfgpxdonesix2fourninefourfour");
+        assert_eq!(answer, 14);
+    }
 }
 
-#[test]
-fn day_1_2() {
-    let input = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen";
-    let answer = day_1_part_2(input);
-    assert_eq!(answer, 281);
-}
-
-#[test]
-fn day_1_2_failed() {
-    // test case from regular input which failed before
-    let answer = day_1_part_2("kpzfgpxdonesix2fourninefourfour");
-    assert_eq!(answer, 14);
-}
