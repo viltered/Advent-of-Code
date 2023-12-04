@@ -1,13 +1,10 @@
-use std::collections::HashMap;
-
 use regex::Regex;
+use std::collections::HashMap;
 
 fn main() {
     let input = include_str!("../input/day3.txt");
-    let answer_1 = day_3_part_1(input);
-    println!("day 3 part 1: {answer_1}");
-    let answer_2 = day_3_part_2(input);
-    println!("day 3 part 2: {answer_2}");
+    println!("day 3 part 1: {}", day_3_part_1(input));
+    println!("day 3 part 2: {}", day_3_part_2(input));
 }
 
 fn day_3_part_1(input: &str) -> u32 {

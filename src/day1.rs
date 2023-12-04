@@ -1,9 +1,7 @@
 fn main() {
     let input = include_str!("../input/day1.txt");
-    let answer_1 = day_1_part_1(input);
-    println!("day 1 part 1: {answer_1}");
-    let answer_2 = day_1_part_2(input);
-    println!("day 1 part 2: {answer_2}");
+    println!("day 1 part 1: {}", day_1_part_1(input));
+    println!("day 1 part 2: {}", day_1_part_2(input));
 }
 
 fn day_1_part_1(input: &str) -> u32 {
@@ -64,20 +62,6 @@ fn day_1_part_2(input: &str) -> u32 {
             .unwrap();
 
         sum += first.1 * 10 + last.1;
-
-        // // print which characters are selected
-        // let first_char = first.1;
-        // let last_char = last.1;
-        // println!("{line} - {first_char} {last_char}");
-        // if last.0 > first.0 {
-        //     println!(
-        //         "{}^{}^",
-        //         " ".repeat(first.0),
-        //         " ".repeat(last.0 - first.0 - 1)
-        //     );
-        // } else {
-        //     println!("{}^", " ".repeat(first.0));
-        // }
     }
 
     sum as u32
@@ -93,14 +77,14 @@ mod tests {
         let answer = day_1_part_1(input);
         assert_eq!(answer, 142);
     }
-    
+
     #[test]
     fn day_1_2() {
         let input = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen";
         let answer = day_1_part_2(input);
         assert_eq!(answer, 281);
     }
-    
+
     #[test]
     fn day_1_2_failed() {
         // test case from regular input which failed before
@@ -108,4 +92,3 @@ mod tests {
         assert_eq!(answer, 14);
     }
 }
-

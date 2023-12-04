@@ -2,10 +2,8 @@ use std::collections::HashMap;
 
 fn main() {
     let input = include_str!("../input/day2.txt");
-    let answer_1 = day_2_part_1(input);
-    println!("day 2 part 1: {answer_1}");
-    let answer_2 = day_2_part_2(input);
-    println!("day 2 part 2: {answer_2}");
+    println!("day 2 part 1: {}", day_2_part_1(input));
+    println!("day 2 part 2: {}", day_2_part_2(input));
 }
 
 fn day_2_part_1(input: &str) -> u32 {
@@ -34,21 +32,24 @@ fn day_2_part_1(input: &str) -> u32 {
 
 fn day_2_part_2(input: &str) -> u32 {
     let mut sum = 0;
+    let mut current_minimum = HashMap::new();
 
     for line in input.lines() {
-        let mut current_minimum = HashMap::from([("red", 0), ("green", 0), ("blue", 0)]);
+        current_minimum.extend([("red", 0), ("green", 0), ("blue", 0)]);
 
         let (_, record) = line.split_once(": ").expect("Incorrect format.");
-    
-        record.split("; ").flat_map(|r| r.split(", ")).for_each(|r| {
-            let (num, color) = r.split_once(" ").expect("Incorrect format");
-            let num = num.parse::<u32>().expect("Non-numeric number of cubes.");
-            current_minimum.insert(color, current_minimum.get(color).unwrap().max(&num).clone());
-        });
 
-        sum += current_minimum["red"] * current_minimum["green"] * current_minimum["blue"];
-        // for arbitrary number of colors:
-        // sum += current_minimum.values().fold(1, |old, new| old * new);
+        record
+            .split("; ")
+            .flat_map(|r| r.split(", "))
+            .for_each(|r| {
+                let (num, color) = r.split_once(" ").expect("Incorrect format");
+                let num = num.parse::<u32>().expect("Non-numeric number of cubes.");
+                current_minimum
+                    .insert(color, current_minimum.get(color).unwrap().max(&num).clone());
+            });
+
+        sum += current_minimum.drain().fold(1, |old, new| old * new.1);
     }
     return sum;
 }

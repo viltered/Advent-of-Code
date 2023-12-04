@@ -3,10 +3,8 @@ use std::collections::{BTreeSet, VecDeque};
 
 fn main() {
     let input = include_str!("../input/day4.txt");
-    let answer_1 = day_4_part_1(input);
-    println!("day 4 part 1: {answer_1}");
-    let answer_2 = day_4_part_2(input);
-    println!("day 4 part 2: {answer_2}");
+    println!("day 4 part 1: {}", day_4_part_1(input));
+    println!("day 4 part 2: {}", day_4_part_2(input));
 }
 
 fn day_4_part_1(input: &str) -> u32 {
@@ -67,7 +65,7 @@ fn day_4_part_2(input: &str) -> u32 {
         let current_copies = 1 + future_copies.pop_front().unwrap_or(0);
         total_score += current_copies;
 
-        // increase copy count for future cards, already present in the VecDeque or not
+        // increase copy count for future cards, wether already present in the VecDeque or not
         let futures_present = wins.min(future_copies.len());
         for i in 0..futures_present {
             future_copies[i] += current_copies;
