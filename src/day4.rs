@@ -67,8 +67,8 @@ fn day_4_part_2(input: &str) -> u32 {
 
         // increase copy count for future cards, wether already present in the VecDeque or not
         let futures_present = wins.min(future_copies.len());
-        for i in 0..futures_present {
-            future_copies[i] += current_copies;
+        for item in future_copies.iter_mut().take(futures_present) {
+            *item += current_copies;
         }
         for _ in futures_present..wins {
             future_copies.push_back(current_copies);

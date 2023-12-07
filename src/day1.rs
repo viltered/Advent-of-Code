@@ -39,13 +39,9 @@ fn day_1_part_2(input: &str) -> u32 {
         let it_words = DIGIT_WORDS
             .iter()
             .enumerate()
-            .flat_map(|(digit, word)| vec![(line.find(word), digit), (line.rfind(word), digit)])
+            .flat_map(|(digit, word)| [(line.find(word), digit), (line.rfind(word), digit)])
             .filter_map(|(index, digit)| {
-                if index.is_some() {
-                    Some((index.unwrap(), digit))
-                } else {
-                    None
-                }
+                index.map(|i| (i, digit))
             });
 
         // both types of matches combined into a single iterator

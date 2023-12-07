@@ -19,7 +19,7 @@ fn day_2_part_1(input: &str) -> u32 {
             .expect("Non-numeric id.");
 
         let accepted = record.split("; ").flat_map(|r| r.split(", ")).all(|r| {
-            let (num, color) = r.split_once(" ").expect("Incorrect format");
+            let (num, color) = r.split_once(' ').expect("Incorrect format");
             max_color[color] >= num.parse::<u32>().expect("Non-numeric number of cubes.")
         });
 
@@ -27,7 +27,7 @@ fn day_2_part_1(input: &str) -> u32 {
             sum += game_id;
         }
     }
-    return sum;
+    sum
 }
 
 fn day_2_part_2(input: &str) -> u32 {
@@ -43,15 +43,15 @@ fn day_2_part_2(input: &str) -> u32 {
             .split("; ")
             .flat_map(|r| r.split(", "))
             .for_each(|r| {
-                let (num, color) = r.split_once(" ").expect("Incorrect format");
+                let (num, color) = r.split_once(' ').expect("Incorrect format");
                 let num = num.parse::<u32>().expect("Non-numeric number of cubes.");
                 current_minimum
-                    .insert(color, current_minimum.get(color).unwrap().max(&num).clone());
+                    .insert(color, *current_minimum.get(color).unwrap().max(&num));
             });
 
         sum += current_minimum.drain().fold(1, |old, new| old * new.1);
     }
-    return sum;
+    sum
 }
 
 #[cfg(test)]

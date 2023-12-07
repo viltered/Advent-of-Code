@@ -35,7 +35,7 @@ fn day_6_part_1(input: &str) -> u64 {
         .iter()
         .zip(top_scores.iter())
         .map(|(time, top_score)| ways_to_win(time, top_score))
-        .fold(1, |acc, new| acc * new)
+        .product()
 }
 
 fn day_6_part_2(input: &str) -> u64 {
@@ -51,7 +51,7 @@ fn day_6_part_2(input: &str) -> u64 {
 
     println!("time: {time}   top_score: {top_score}");
 
-    return ways_to_win_centered(&time, &top_score);
+    ways_to_win_centered(&time, &top_score)
 }
 
 #[cfg(test)]
