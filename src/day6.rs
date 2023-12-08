@@ -58,18 +58,18 @@ fn day_6_part_2(input: &str) -> u64 {
 mod tests {
     use crate::{day_6_part_1, day_6_part_2};
 
-    const E6AMPLE_INPUT: &str = "Time:      7  15   30
+    const EXAMPLE_INPUT: &str = "Time:      7  15   30
 Distance:  9  40  200";
 
     #[test]
     fn day_6_1() {
-        let answer = day_6_part_1(E6AMPLE_INPUT);
+        let answer = day_6_part_1(EXAMPLE_INPUT);
         assert_eq!(answer, 288);
     }
 
     #[test]
     fn day_6_2() {
-        let answer = day_6_part_2(E6AMPLE_INPUT);
+        let answer = day_6_part_2(EXAMPLE_INPUT);
         assert_eq!(answer, 71503);
     }
 }

@@ -61,7 +61,7 @@ impl Hand {
         // count groups and add jokers to largest group
         let mut count_map = cards.iter().counts();
         let jokers = count_map.remove(&Card::Joker).unwrap_or(0);
-        let mut counts: Vec<usize> = count_map.into_values().sorted().rev().collect();
+        let mut counts: Vec<usize> = count_map.into_values().sorted_by(|a, b| b.cmp(a)).collect();
         if counts.is_empty() {
             counts.push(jokers);
         } else {
@@ -69,17 +69,13 @@ impl Hand {
         }
 
         // determine the type of hand by inspecting the counts
-        let hand_type = match counts.first().unwrap() {
-            5 => HandType::FiveOfAKind,
-            4 => HandType::FourOfAKind,
-            3 => match counts.get(1).unwrap() {
-                2 => HandType::FullHouse,
-                _ => HandType::ThreeOfAKind,
-            },
-            2 => match counts.get(1).unwrap() {
-                2 => HandType::TwoPair,
-                _ => HandType::OnePair,
-            },
+        let hand_type = match counts.as_slice() {
+            [5] => HandType::FiveOfAKind,
+            [4, ..] => HandType::FourOfAKind,
+            [3, 2] => HandType::FullHouse,
+            [3, ..] => HandType::ThreeOfAKind,
+            [2, 2, ..] => HandType::TwoPair,
+            [2, ..] => HandType::OnePair,
             _ => HandType::HighCard,
         };
 
@@ -106,26 +102,26 @@ fn day_7_part_1(input: &str) -> u32 {
 
 fn day_7_part_2(input: &str) -> u32 {
     input
-    .lines()
-    .map(|line| {
-        let mut it = line.split_ascii_whitespace();
-        (
-            Hand::new(it.next().expect("Invalid line"), true),
-            it.next().expect("Missing bet").parse::<u32>().unwrap(),
-        )
-    })
-    .sorted()
-    .zip(1..)
-    // .inspect(|((hand, bet), rank)| println!("{rank}. {hand:?} {bet:?}"))
-    .map(|((_hand, bet), rank)| rank * bet)
-    .sum()
+        .lines()
+        .map(|line| {
+            let mut it = line.split_ascii_whitespace();
+            (
+                Hand::new(it.next().expect("Invalid line"), true),
+                it.next().expect("Missing bet").parse::<u32>().unwrap(),
+            )
+        })
+        .sorted()
+        .zip(1..)
+        // .inspect(|((hand, bet), rank)| println!("{rank}. {hand:?} {bet:?}"))
+        .map(|((_hand, bet), rank)| rank * bet)
+        .sum()
 }
 
 #[cfg(test)]
 mod tests {
     use crate::{day_7_part_1, day_7_part_2};
 
-    const E7AMPLE_INPUT: &str = "32T3K 765
+    const EXAMPLE_INPUT: &str = "32T3K 765
 T55J5 684
 KK677 28
 KTJJT 220
@@ -133,13 +129,13 @@ QQQJA 483";
 
     #[test]
     fn day_7_1() {
-        let answer = day_7_part_1(E7AMPLE_INPUT);
+        let answer = day_7_part_1(EXAMPLE_INPUT);
         assert_eq!(answer, 6440);
     }
 
     #[test]
     fn day_7_2() {
-        let answer = day_7_part_2(E7AMPLE_INPUT);
+        let answer = day_7_part_2(EXAMPLE_INPUT);
         assert_eq!(answer, 5905);
     }
 }
