@@ -27,7 +27,7 @@ fn next_pipe_offset(offset: &Offset, pipe: &char) -> Option<Offset> {
     }
 }
 
-fn find_start(grid: &Vec<Vec<char>>) -> (i32, i32) {
+fn find_start(grid: &[Vec<char>]) -> (i32, i32) {
     for (y, row) in grid.iter().enumerate() {
         for (x, &cell) in row.iter().enumerate() {
             if cell == 'S' {
@@ -48,7 +48,7 @@ fn find_initial_offset(start: (i32, i32), grid: &Vec<Vec<char>>) -> Offset {
         let new_x = (start.0 + test_offset.0).clamp(0, size_x);
         let new_y = (start.1 + test_offset.1).clamp(0, size_y);
         let cell = grid[new_y as usize][new_x as usize];
-        if let Some(_) = next_pipe_offset(&test_offset, &cell) {
+        if next_pipe_offset(&test_offset, &cell).is_some() {
             return test_offset;
         }
     }
@@ -68,7 +68,7 @@ fn day_10_part_1(input: &str) -> u32 {
     let mut count = 0;
     while current_char != 'S' {
         current_offset = next_pipe_offset(&current_offset, &current_char)
-            .expect(format!("Pipe dead end!").as_str());
+            .expect("Pipe dead end!");
         current_x += current_offset.0;
         current_y += current_offset.1;
         current_char = grid[current_y as usize][current_x as usize];
@@ -98,9 +98,8 @@ fn day_10_part_2(input: &str) -> u32 {
     //   2) which tiles have a pipe going up (L, |, J or S depending on starting offset)
     while current_char != 'S' {
         // println!("  pos: ({current_x} {current_y}) {current_char} -  {current_offset:?}");
-        next_offset = next_pipe_offset(&current_offset, &current_char).expect(
-            format!("Pipe dead end! ({current_x},{current_y}) {current_offset:?} {current_char}")
-                .as_str(),
+        next_offset = next_pipe_offset(&current_offset, &current_char).unwrap_or_else(|| 
+            panic!("Pipe dead end! ({current_x},{current_y}) {current_offset:?} {current_char}")
         );
         current_offset = next_offset;
         current_x += current_offset.0;
