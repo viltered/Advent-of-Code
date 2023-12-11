@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 regex = "1.10.2"
 itertools = "0.12.0"
+phf = { version = "0.11.2", features = ["macros"] }
 
 [[bin]]
 name = "day1"
@@ -44,3 +45,7 @@ path = "src/day8.rs"
 [[bin]]
 name = "day9"
 path = "src/day9.rs"
+
+[[bin]]
+name = "day10"
+path = "src/day10.rs"

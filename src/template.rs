@@ -28,13 +28,11 @@ mod tests {
 
     #[test]
     fn day_Z_1() {
-        let answer = day_Z_part_1(EXAMPLE_INPUT);
-        assert_eq!(answer, 0);
+        assert_eq!(day_Z_part_1(EXAMPLE_INPUT), 0);
     }
 
     #[test]
     fn day_Z_2() {
-        let answer = day_Z_part_2(EXAMPLE_INPUT);
-        assert_eq!(answer, 0);
+        assert_eq!(day_Z_part_2(EXAMPLE_INPUT), 0);
     }
 }
